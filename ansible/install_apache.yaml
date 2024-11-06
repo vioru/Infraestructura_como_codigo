@@ -1,0 +1,19 @@
+---
+- name: Instalar Apache
+  hosts: Instancias
+  become: yes
+  tasks:
+    - name: Actualizar caché de paquetes
+      apt:
+        update_cache: yes
+
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Iniciar Apache
+      service:
+        name: apache2
+        state: started
+        enabled: yes

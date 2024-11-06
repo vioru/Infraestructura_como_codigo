@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Plantilla para realizar deploy de 2 instancias y un bucket s3
+Resources:
+  InstanciaProduccion:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba 
+      InstanceType: t2.micro
+      KeyName: fergie 
+      AvailabilityZone: us-east-1a
+      InstanceInitiatedShutdownBehavior: stop
+      Monitoring: false
+
+  InstanciaDesarrollo:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba
+      InstanceType: t2.micro
+      AvailabilityZone: us-east-1f
+      KeyName: fergie
+      InstanceInitiatedShutdownBehavior: stop
+      Monitoring: false
+
+  BucketS3:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: bucket-fergie-cloudf-prueba
+      PublicAccessBlockConfiguration:  
+        BlockPublicAcls: true  
+        IgnorePublicAcls: true  
+        BlockPublicPolicy: true  
+        RestrictPublicBuckets: true
+      VersioningConfiguration:  
+        Status: Enabled

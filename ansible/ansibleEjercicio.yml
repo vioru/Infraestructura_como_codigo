@@ -1,0 +1,12 @@
+
+- hosts: localhost  
+  tasks:
+  - name: inicializar una ec2
+    amazon.aws.ec2_instance: #nombre del modulo y lo que sigue son sus parametros
+      name: "ansible-instancia"
+      key_name: "fergie"
+      instance_type: t2.micro
+      security_group: default
+      image_id: ami-0866a3c8686eaeeba
+      tags: 
+        Environment: Produccion

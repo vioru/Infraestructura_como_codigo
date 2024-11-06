@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Este template va a realizar el deploy de 2 instancias con un grupo de seguridad compartido
+Resources:
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Acceso SSH y HTTP
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: KeyName  
+          Value: MiGrupoDeSeguridad
+  InstanciaProductiva:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba #Ubuntu
+      KeyName: ansiblePrueba
+      AvailabilityZone: us-east-1a
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      Tags:
+        - Key: KeyName    
+          Value: "Instancia_CloudFormation_produccion"         
+  InstanciaTesting:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0866a3c8686eaeeba #Ubuntu
+      KeyName: ansiblePrueba     
+      AvailabilityZone: us-east-1b
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      Tags:
+        - Key: KeyName    
+          Value: "Instancia_CloudFormation_produccion"
+
+Outputs:
+  ProductivaIP:
+    Description: IP publica de una instancia Productiva
+    Value: !GetAtt InstanciaProductiva.PublicIp
+    Export:
+      Name: InstanciaProductiva
+
+  TestingIP:
+    Description: IP publica de una instancia de testing
+    Value: !GetAtt InstanciaTesting.PublicIp
+    Export: 
+      Name: InstanciaTestingIP

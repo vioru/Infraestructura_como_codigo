@@ -1,0 +1,4 @@
+[Instancias]
+instanciaProductiva ansible_host=52.206.171.254 ansible_user=ubuntu ansible_ssh_private_key_file=<path>
+instanciaTesting ansible_host=44.205.9.251 ansible_user=ubuntu ansible_ssh_private_key_file=<path>
+    

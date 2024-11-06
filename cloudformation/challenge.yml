@@ -1,0 +1,36 @@
+Parameters:
+  Ambiente:
+    Type: String
+    AllowedValues: [produccion, desarrollo]
+    Description: "Tipo de ambiente"
+
+Mappings:
+  TipoDeInstancia:
+    produccion:
+      instanceType: t3.small
+    desarrollo:
+      instanceType: t2.micro
+  Imagen:
+    produccion:
+      imageId: ami-0866a3c8686eaeeba
+    desarrollo:
+      imageId: ami-0866a3c8686eaeeba
+
+  Nombre :
+    produccion: 
+      Tags: 
+        - Key: Name
+          Value: "Instancia_produccion"
+    desarrollo: 
+      Tags: 
+        - Key: Name
+          Value: "Instancia_desarrollo"
+
+Resources:
+  InstanciaEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: !FindInMap [TipoDeInstancia, !Ref 'Ambiente', instanceType]
+      ImageId: !FindInMap [Imagen, !Ref 'Ambiente', imageId]
+      Tags: !FindInMap [Nombre, !Ref 'Ambiente', Tags]
+      KeyName: fergie
